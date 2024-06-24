@@ -9,34 +9,27 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+    func placeholder(in context: Context) -> RepoEntry {
+        RepoEntry(date: Date(), emoji: "😀", repo: Repository.placeHolder)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
+    func getSnapshot(in context: Context, completion: @escaping (RepoEntry) -> ()) {
+        let entry = RepoEntry(date: Date(), emoji: "😀", repo: Repository.placeHolder)
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
-            entries.append(entry)
-        }
+        var entries: [RepoEntry] = []
 
         let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct RepoEntry: TimelineEntry {
     let date: Date
     let emoji: String
+    let repo: Repository
 }
 
 /*
@@ -51,12 +44,16 @@ struct SimpleEntry: TimelineEntry {
  9. Alinear la primera VSTack
  10. Separar y padding
  11. Estilo al nombre y poner días
+ 12. Crear Repository
+ 13. Cambiar SimpleEntry a RepoEntry
+ 14. let repo: Repository en RepoEntry y corregir errores
+ 15. Cambiar var entry: Provider.Entry a RepoEntry y actualuzar form
  */
 
 // MARK: UI
 struct ReppoEntryView : View {
-    var entry: Provider.Entry
-
+    var entry: RepoEntry
+    
     var body: some View {
         HStack {
             // 9
@@ -66,7 +63,8 @@ struct ReppoEntryView : View {
                         .frame(width: 50, height: 50)
                     
                     // 5
-                    Text("Datafox iOS")
+//                    Text("Datafox iOS") 15
+                    Text(entry.repo.name)
                         .font(.title2)
                         .fontWeight(.semibold)
                         .minimumScaleFactor(0.6)
@@ -83,9 +81,13 @@ struct ReppoEntryView : View {
 //                        Image(systemName: "star.fill")
 //                            .foregroundStyle(.green)
 //                    } // Label
-                    StarLabel(value: 999, systemImageName: "star.fill")
-                    StarLabel(value: 999, systemImageName: "tuningfork")
-                    StarLabel(value: 999, systemImageName: "exclamationmark.triangle.fill")
+                    StarLabel(value: entry.repo.watchers, systemImageName: "star.fill")
+                    StarLabel(value: entry.repo.forks, systemImageName: "tuningfork")
+                    StarLabel(value: entry.repo.openIssues, systemImageName: "exclamationmark.triangle.fill")
+                    
+//                    StarLabel(value: 999, systemImageName: "star.fill") // 15
+//                    StarLabel(value: 999, systemImageName: "tuningfork") // 15
+//                    StarLabel(value: 999, systemImageName: "exclamationmark.triangle.fill") // 15
                     
                 } // HStack
             } // VStack
@@ -135,8 +137,8 @@ struct Reppo: Widget {
 #Preview(as: .systemMedium) {
     Reppo()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+    RepoEntry(date: .now, emoji: "😀", repo: Repository.placeHolder)
+    RepoEntry(date: .now, emoji: "🤩", repo: Repository.placeHolder)
 }
 
 // fileprivate es para que sólo se pueda usar en este archivo

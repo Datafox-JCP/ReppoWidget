@@ -17,6 +17,8 @@
 		C61368522C29397000C96DEB /* Reppo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61368512C29397000C96DEB /* Reppo.swift */; };
 		C61368542C29397800C96DEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C61368532C29397800C96DEB /* Assets.xcassets */; };
 		C61368582C29397800C96DEB /* ReppoExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C61368482C29397000C96DEB /* ReppoExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C6EDCECD2C29B16F004D0704 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EDCECC2C29B16F004D0704 /* Repository.swift */; };
+		C6EDCECE2C29B4AB004D0704 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EDCECC2C29B16F004D0704 /* Repository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,7 @@
 		C61368512C29397000C96DEB /* Reppo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reppo.swift; sourceTree = "<group>"; };
 		C61368532C29397800C96DEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C61368552C29397800C96DEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6EDCECC2C29B16F004D0704 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +105,7 @@
 			children = (
 				C61368362C29389000C96DEB /* ReppoWidgetApp.swift */,
 				C61368382C29389000C96DEB /* ContentView.swift */,
+				C6EDCECC2C29B16F004D0704 /* Repository.swift */,
 				C613683A2C29389400C96DEB /* Assets.xcassets */,
 				C613683C2C29389400C96DEB /* Preview Content */,
 			);
@@ -239,6 +243,7 @@
 			files = (
 				C61368392C29389000C96DEB /* ContentView.swift in Sources */,
 				C61368372C29389000C96DEB /* ReppoWidgetApp.swift in Sources */,
+				C6EDCECD2C29B16F004D0704 /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +253,7 @@
 			files = (
 				C61368522C29397000C96DEB /* Reppo.swift in Sources */,
 				C61368502C29397000C96DEB /* ReppoBundle.swift in Sources */,
+				C6EDCECE2C29B4AB004D0704 /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

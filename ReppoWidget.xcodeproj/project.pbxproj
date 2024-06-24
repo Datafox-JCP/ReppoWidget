@@ -11,7 +11,37 @@
 		C61368392C29389000C96DEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61368382C29389000C96DEB /* ContentView.swift */; };
 		C613683B2C29389400C96DEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C613683A2C29389400C96DEB /* Assets.xcassets */; };
 		C613683E2C29389400C96DEB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C613683D2C29389400C96DEB /* Preview Assets.xcassets */; };
+		C613684B2C29397000C96DEB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C613684A2C29397000C96DEB /* WidgetKit.framework */; };
+		C613684D2C29397000C96DEB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C613684C2C29397000C96DEB /* SwiftUI.framework */; };
+		C61368502C29397000C96DEB /* ReppoBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C613684F2C29397000C96DEB /* ReppoBundle.swift */; };
+		C61368522C29397000C96DEB /* Reppo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61368512C29397000C96DEB /* Reppo.swift */; };
+		C61368542C29397800C96DEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C61368532C29397800C96DEB /* Assets.xcassets */; };
+		C61368582C29397800C96DEB /* ReppoExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C61368482C29397000C96DEB /* ReppoExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C61368562C29397800C96DEB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C613682B2C29389000C96DEB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C61368472C29397000C96DEB;
+			remoteInfo = ReppoExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C613685C2C29397800C96DEB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C61368582C29397800C96DEB /* ReppoExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C61368332C29389000C96DEB /* ReppoWidget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReppoWidget.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -19,6 +49,13 @@
 		C61368382C29389000C96DEB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C613683A2C29389400C96DEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C613683D2C29389400C96DEB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C61368482C29397000C96DEB /* ReppoExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ReppoExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C613684A2C29397000C96DEB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C613684C2C29397000C96DEB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		C613684F2C29397000C96DEB /* ReppoBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReppoBundle.swift; sourceTree = "<group>"; };
+		C61368512C29397000C96DEB /* Reppo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reppo.swift; sourceTree = "<group>"; };
+		C61368532C29397800C96DEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C61368552C29397800C96DEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +66,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C61368452C29397000C96DEB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C613684D2C29397000C96DEB /* SwiftUI.framework in Frameworks */,
+				C613684B2C29397000C96DEB /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -36,6 +82,8 @@
 			isa = PBXGroup;
 			children = (
 				C61368352C29389000C96DEB /* ReppoWidget */,
+				C613684E2C29397000C96DEB /* Reppo */,
+				C61368492C29397000C96DEB /* Frameworks */,
 				C61368342C29389000C96DEB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -44,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				C61368332C29389000C96DEB /* ReppoWidget.app */,
+				C61368482C29397000C96DEB /* ReppoExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,6 +116,26 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		C61368492C29397000C96DEB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C613684A2C29397000C96DEB /* WidgetKit.framework */,
+				C613684C2C29397000C96DEB /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C613684E2C29397000C96DEB /* Reppo */ = {
+			isa = PBXGroup;
+			children = (
+				C613684F2C29397000C96DEB /* ReppoBundle.swift */,
+				C61368512C29397000C96DEB /* Reppo.swift */,
+				C61368532C29397800C96DEB /* Assets.xcassets */,
+				C61368552C29397800C96DEB /* Info.plist */,
+			);
+			path = Reppo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,15 +146,34 @@
 				C613682F2C29389000C96DEB /* Sources */,
 				C61368302C29389000C96DEB /* Frameworks */,
 				C61368312C29389000C96DEB /* Resources */,
+				C613685C2C29397800C96DEB /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C61368572C29397800C96DEB /* PBXTargetDependency */,
 			);
 			name = ReppoWidget;
 			productName = ReppoWidget;
 			productReference = C61368332C29389000C96DEB /* ReppoWidget.app */;
 			productType = "com.apple.product-type.application";
+		};
+		C61368472C29397000C96DEB /* ReppoExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C61368592C29397800C96DEB /* Build configuration list for PBXNativeTarget "ReppoExtension" */;
+			buildPhases = (
+				C61368442C29397000C96DEB /* Sources */,
+				C61368452C29397000C96DEB /* Frameworks */,
+				C61368462C29397000C96DEB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReppoExtension;
+			productName = ReppoExtension;
+			productReference = C61368482C29397000C96DEB /* ReppoExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -98,6 +186,9 @@
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					C61368322C29389000C96DEB = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					C61368472C29397000C96DEB = {
 						CreatedOnToolsVersion = 15.4;
 					};
 				};
@@ -116,6 +207,7 @@
 			projectRoot = "";
 			targets = (
 				C61368322C29389000C96DEB /* ReppoWidget */,
+				C61368472C29397000C96DEB /* ReppoExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -127,6 +219,14 @@
 			files = (
 				C613683E2C29389400C96DEB /* Preview Assets.xcassets in Resources */,
 				C613683B2C29389400C96DEB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C61368462C29397000C96DEB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C61368542C29397800C96DEB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,7 +242,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C61368442C29397000C96DEB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C61368522C29397000C96DEB /* Reppo.swift in Sources */,
+				C61368502C29397000C96DEB /* ReppoBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C61368572C29397800C96DEB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C61368472C29397000C96DEB /* ReppoExtension */;
+			targetProxy = C61368562C29397800C96DEB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C613683F2C29389400C96DEB /* Debug */ = {
@@ -267,6 +384,7 @@
 		C61368422C29389400C96DEB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -296,6 +414,7 @@
 		C61368432C29389400C96DEB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -322,6 +441,60 @@
 			};
 			name = Release;
 		};
+		C613685A2C29397800C96DEB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T2Q4YR3P44;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Reppo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Reppo;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mx.datafox.ReppoWidget.Reppo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C613685B2C29397800C96DEB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T2Q4YR3P44;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Reppo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Reppo;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mx.datafox.ReppoWidget.Reppo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -339,6 +512,15 @@
 			buildConfigurations = (
 				C61368422C29389400C96DEB /* Debug */,
 				C61368432C29389400C96DEB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C61368592C29397800C96DEB /* Build configuration list for PBXNativeTarget "ReppoExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C613685A2C29397800C96DEB /* Debug */,
+				C613685B2C29397800C96DEB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

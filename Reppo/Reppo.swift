@@ -8,30 +8,6 @@
 import WidgetKit
 import SwiftUI
 
-struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> RepoEntry {
-        RepoEntry(date: Date(), emoji: "😀", repo: Repository.placeHolder)
-    }
-
-    func getSnapshot(in context: Context, completion: @escaping (RepoEntry) -> ()) {
-        let entry = RepoEntry(date: Date(), emoji: "😀", repo: Repository.placeHolder)
-        completion(entry)
-    }
-
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [RepoEntry] = []
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
-    }
-}
-
-struct RepoEntry: TimelineEntry {
-    let date: Date
-    let emoji: String
-    let repo: Repository
-}
-
 /*
  1. Interfaz
  2. Borrar el original
@@ -47,20 +23,77 @@ struct RepoEntry: TimelineEntry {
  12. Crear Repository
  13. Cambiar SimpleEntry a RepoEntry
  14. let repo: Repository en RepoEntry y corregir errores
- 15. Cambiar var entry: Provider.Entry a RepoEntry y actualuzar form
+ 15. Cambiar var entry: Provider.Entry a RepoEntry y actualizar form
+ 16. Caluclar días desde la última actividad, el formatter se coloca fuera de la función porque se va a usar varias veces
+ 17. Crrar el network manager
+ 18. Ajustar getTimeline
+ 19. Añadir la función downloadImageData en repository
+ 20. Poner imagen en assets
+ 21. Usar la función para cargar la imagen en getTimeline
+ 22. Añadir la variable en RepoEntry
+ 23. y corregir los errores
+ 24. Finalmente en el view usar la imagen en vez del circle
  */
+
+struct Provider: TimelineProvider {
+    func placeholder(in context: Context) -> RepoEntry {
+//        RepoEntry(date: Date(), repo: Repository.placeHolder)
+        RepoEntry(date: Date(), repo: Repository.placeHolder, avatarImageData: Data())
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (RepoEntry) -> ()) {
+//        let entry = RepoEntry(date: Date(), repo: Repository.placeHolder)
+        let entry = RepoEntry(date: Date(), repo: Repository.placeHolder, avatarImageData: Data())
+        completion(entry)
+    }
+
+    func getTimeline(in context: Context, completion: @escaping
+                     (Timeline<Entry>) -> ()) {
+        // Para volverla una función asincrona ponerla en Task
+        Task {
+            let nextUpdate = Date().addingTimeInterval(42000) // 12 horas en segs.
+            
+            do {
+                let repo = try await NetworkManager.shared.getRepo(atUrl: RepoURL.swiftNews)
+                // 21 esto va después
+                let avatarImageData = await NetworkManager.shared.downloadImageData(from: repo.owner.avatarUrl)
+//                let entry = RepoEntry(date: .now, repo: repo)
+                let entry = RepoEntry(date: .now, repo: repo, avatarImageData: avatarImageData ?? Data())
+                let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+                completion(timeline)
+            } catch {
+                print("❌ Error - \(error.localizedDescription)")
+            }
+        }
+    }
+}
+
+struct RepoEntry: TimelineEntry {
+    let date: Date
+    let repo: Repository
+    let avatarImageData: Data // 23
+}
 
 // MARK: UI
 struct ReppoEntryView : View {
     var entry: RepoEntry
+    
+    // 16
+    let formatter = ISO8601DateFormatter() // "updated_at": "2024-05-19T01:36:56Z" pushedAt: "2024-06-24T18:19:30Z"
+    var daysSinceLastActivty: Int{
+        calculateDaysSinceLastActivity(from: entry.repo.pushedAt)
+    }
     
     var body: some View {
         HStack {
             // 9
             VStack(alignment: .leading) {
                 HStack {
-                   Circle()
+//                   Circle()
+                    Image(uiImage: UIImage(data: entry.avatarImageData) ?? UIImage(named: "avatar")!)
+                        .resizable()
                         .frame(width: 50, height: 50)
+                        .clipShape(Circle())
                     
                     // 5
 //                    Text("Datafox iOS") 15
@@ -96,13 +129,15 @@ struct ReppoEntryView : View {
             Spacer()
             
             VStack {
-                Text("99") 
+                // 17 usar función
+                Text("\(daysSinceLastActivty)")
                 // 11
                     .bold()
                     .font(.system(size: 70))
                     .frame(width: 90)
                     .minimumScaleFactor(0.6)
                     .lineLimit(1)
+                    .foregroundStyle(daysSinceLastActivty >= 30 ? .pink : .green)
                 
                 Text("días")
                     .font(.caption2)
@@ -111,6 +146,14 @@ struct ReppoEntryView : View {
         } // HStack
         // 10
         .padding()
+    }
+    
+    // 16
+    func calculateDaysSinceLastActivity(from dateString: String) -> Int {
+        let lastActivityDate = formatter.date(from: dateString) ?? .now
+        let daysSinceLastActivity = Calendar.current.dateComponents([.day], from: lastActivityDate, to: .now).day ?? 0
+        
+        return daysSinceLastActivity
     }
 }
 
@@ -137,8 +180,10 @@ struct Reppo: Widget {
 #Preview(as: .systemMedium) {
     Reppo()
 } timeline: {
-    RepoEntry(date: .now, emoji: "😀", repo: Repository.placeHolder)
-    RepoEntry(date: .now, emoji: "🤩", repo: Repository.placeHolder)
+//    RepoEntry(date: .now, repo: Repository.placeHolder)
+    RepoEntry(date: .now, repo: Repository.placeHolder, avatarImageData: Data())
+//    RepoEntry(date: .now, repo: Repository.placeHolder)
+    RepoEntry(date: .now, repo: Repository.placeHolder, avatarImageData: Data())
 }
 
 // fileprivate es para que sólo se pueda usar en este archivo

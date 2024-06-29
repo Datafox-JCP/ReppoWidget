@@ -23,7 +23,7 @@ struct Repository: Decodable {
         forks: 75,
         watchers: 145,
         openIssues: 5,
-        pushedAt: "2024-06-24T18:19:30Z"
+        pushedAt: "2023-06-24T18:19:30Z"
     )
 }
 

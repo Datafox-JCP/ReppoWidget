@@ -33,17 +33,34 @@ import SwiftUI
  22. Añadir la variable en RepoEntry
  23. y corregir los errores
  24. Finalmente en el view usar la imagen en vez del circle
+ 25. Mover el view y ajustarlo e RepoMediumView
+ 26. Añadir la familia
+ 27. Añadir la segunda entrada
+ 28. Ajustar reposotory añadiendo extensión
+ 29. Ajustar RepoMeidumView
+ 30. Ajustar RepoEntry: TimelineEntry y corregir los errores borrando avatarImageData
+ 31. Modificar timlineprovider para preparar para extender el widget
+ 32. Corregir los errores 
+ 33. Crear el struct MockData y ajustar errores
+ 34. Ajustar getTileline
+ 35. Ajustar el body
  */
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> RepoEntry {
 //        RepoEntry(date: Date(), repo: Repository.placeHolder)
-        RepoEntry(date: Date(), repo: Repository.placeHolder, avatarImageData: Data())
+//        RepoEntry(date: Date(), repo: Repository.placeHolder, avatarImageData: Data())
+        //30
+//        RepoEntry(date: Date(), repo: Repository.placeHolder)
+        // 31
+        RepoEntry(date: Date(), repo: MockData.repoOne, bottomRepo: MockData.repoTwo)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (RepoEntry) -> ()) {
 //        let entry = RepoEntry(date: Date(), repo: Repository.placeHolder)
-        let entry = RepoEntry(date: Date(), repo: Repository.placeHolder, avatarImageData: Data())
+//        let entry = RepoEntry(date: Date(), repo: Repository.placeHolder, avatarImageData: Data())
+        // 30
+        let entry = RepoEntry(date: Date(), repo: MockData.repoOne, bottomRepo: MockData.repoTwo)
         completion(entry)
     }
 
@@ -54,11 +71,29 @@ struct Provider: TimelineProvider {
             let nextUpdate = Date().addingTimeInterval(42000) // 12 horas en segs.
             
             do {
-                let repo = try await NetworkManager.shared.getRepo(atUrl: RepoURL.swiftNews)
+                // 30
+//                let repo = try await NetworkManager.shared.getRepo(atUrl: RepoURL.swiftNews)
+                // Obtener top repo
+                var repo = try await NetworkManager.shared.getRepo(atUrl: RepoURL.swiftNews)
                 // 21 esto va después
                 let avatarImageData = await NetworkManager.shared.downloadImageData(from: repo.owner.avatarUrl)
 //                let entry = RepoEntry(date: .now, repo: repo)
-                let entry = RepoEntry(date: .now, repo: repo, avatarImageData: avatarImageData ?? Data())
+//                let entry = RepoEntry(date: .now, repo: repo, avatarImageData: avatarImageData ?? Data())
+                // 30
+                repo.avatarData = avatarImageData ?? Data()
+                
+                // Obtener bottomRepo si es large widget
+                var bottomRepo: Repository?
+                
+                if context.family == .systemLarge {
+                    bottomRepo = try await NetworkManager.shared.getRepo(atUrl: RepoURL.google)
+                    let avatarImageData = await NetworkManager.shared.downloadImageData(from: bottomRepo!.owner.avatarUrl)
+                    bottomRepo!.avatarData = avatarImageData ?? Data()
+                }
+                
+                
+                // Crear entry & timeline
+                let entry = RepoEntry(date: .now, repo: repo, bottomRepo: nil)
                 let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
                 completion(timeline)
             } catch {
@@ -71,89 +106,39 @@ struct Provider: TimelineProvider {
 struct RepoEntry: TimelineEntry {
     let date: Date
     let repo: Repository
-    let avatarImageData: Data // 23
+//    let avatarImageData: Data // 23
+    // 33
+    let bottomRepo: Repository?
 }
 
 // MARK: UI
 struct ReppoEntryView : View {
+    // 26
+    @Environment(\.widgetFamily) var family
+    
     var entry: RepoEntry
     
-    // 16
-    let formatter = ISO8601DateFormatter() // "updated_at": "2024-05-19T01:36:56Z" pushedAt: "2024-06-24T18:19:30Z"
-    var daysSinceLastActivty: Int{
-        calculateDaysSinceLastActivity(from: entry.repo.pushedAt)
-    }
-    
     var body: some View {
-        HStack {
-            // 9
-            VStack(alignment: .leading) {
-                HStack {
-//                   Circle()
-                    Image(uiImage: UIImage(data: entry.avatarImageData) ?? UIImage(named: "avatar")!)
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    
-                    // 5
-//                    Text("Datafox iOS") 15
-                    Text(entry.repo.name)
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .minimumScaleFactor(0.6)
-                        .lineLimit(1)
-                } // HStack
-                // 10
-                .padding(.bottom, 6)
-                
-                // 6 no colocar al principio
-                HStack {
-//                    Label {
-//                        Text("999")
-//                    } icon: {
-//                        Image(systemName: "star.fill")
-//                            .foregroundStyle(.green)
-//                    } // Label
-                    StarLabel(value: entry.repo.watchers, systemImageName: "star.fill")
-                    StarLabel(value: entry.repo.forks, systemImageName: "tuningfork")
-                    StarLabel(value: entry.repo.openIssues, systemImageName: "exclamationmark.triangle.fill")
-                    
-//                    StarLabel(value: 999, systemImageName: "star.fill") // 15
-//                    StarLabel(value: 999, systemImageName: "tuningfork") // 15
-//                    StarLabel(value: 999, systemImageName: "exclamationmark.triangle.fill") // 15
-                    
-                } // HStack
-            } // VStack
-            
-            // 10
-            Spacer()
-            
-            VStack {
-                // 17 usar función
-                Text("\(daysSinceLastActivty)")
-                // 11
-                    .bold()
-                    .font(.system(size: 70))
-                    .frame(width: 90)
-                    .minimumScaleFactor(0.6)
-                    .lineLimit(1)
-                    .foregroundStyle(daysSinceLastActivty >= 30 ? .pink : .green)
-                
-                Text("días")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            } // VStack
-        } // HStack
-        // 10
-        .padding()
-    }
-    
-    // 16
-    func calculateDaysSinceLastActivity(from dateString: String) -> Int {
-        let lastActivityDate = formatter.date(from: dateString) ?? .now
-        let daysSinceLastActivity = Calendar.current.dateComponents([.day], from: lastActivityDate, to: .now).day ?? 0
+        // 26
+        switch family {
+        case .systemMedium:
+            RepoMediumView(repo: entry.repo)
+        case .systemLarge:
+//            RepoMediumView(repo: entry.repo)
+            // 27
+            VStack(spacing: 36) {
+                RepoMediumView(repo: entry.repo)
+                // 35
+                if let bottomRepo = entry.bottomRepo {
+                    RepoMediumView(repo: bottomRepo)
+                }
+            }
+        case .systemSmall, .systemExtraLarge, .accessoryCircular, .accessoryRectangular, .accessoryInline:
+            EmptyView()
+        @unknown default:
+            EmptyView()
+        }
         
-        return daysSinceLastActivity
     }
 }
 
@@ -171,35 +156,18 @@ struct Reppo: Widget {
                     .background()
             }
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
-        .supportedFamilies([.systemMedium])
+        .configurationDisplayName("Repo Widget")
+        .description("Mantenerse al tanto de uno o dos repositorios en GitHub")
+        .supportedFamilies([.systemMedium, .systemLarge]) // 26 añadir .systemLarge
     }
 }
 
-#Preview(as: .systemMedium) {
+// 25 cambiar a .systemLarge
+#Preview(as: .systemLarge) {
     Reppo()
 } timeline: {
 //    RepoEntry(date: .now, repo: Repository.placeHolder)
-    RepoEntry(date: .now, repo: Repository.placeHolder, avatarImageData: Data())
+    RepoEntry(date: Date(), repo: MockData.repoOne, bottomRepo: MockData.repoTwo)
 //    RepoEntry(date: .now, repo: Repository.placeHolder)
-    RepoEntry(date: .now, repo: Repository.placeHolder, avatarImageData: Data())
-}
-
-// fileprivate es para que sólo se pueda usar en este archivo
-fileprivate struct StarLabel: View {
-    
-    let value: Int
-    let systemImageName: String
-    
-    var body: some View {
-        Label {
-            Text("\(value)")
-                .font(.footnote)
-        } icon: {
-            Image(systemName: systemImageName)
-                .foregroundStyle(.green)
-        } // Label
-        .fontWeight(.medium)
-    }
+    RepoEntry(date: Date(), repo: MockData.repoOne, bottomRepo: MockData.repoTwo)
 }

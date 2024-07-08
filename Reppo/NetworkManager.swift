@@ -29,7 +29,10 @@ class NetworkManager {
         }
         
         do {
-            return try decoder.decode(Repository.self, from: data)
+//            return try decoder.decode(Repository.self, from: data)
+            // 28 una vez ajustado el modelo cambiar a:
+            let codingData =  try decoder.decode(Repository.CodingData.self, from: data)
+            return codingData.repo
         } catch {
             throw NetworkError.invalidRepoData
         }

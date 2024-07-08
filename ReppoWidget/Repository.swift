@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Repository: Decodable {
+struct Repository {
     let name: String
     let owner: Owner
     let hasIssues: Bool
@@ -15,16 +15,45 @@ struct Repository: Decodable {
     let watchers: Int
     let openIssues: Int
     let pushedAt: String
+    var avatarData: Data
     
-    static let placeHolder = Repository(
-        name: "Mi repositorio",
-        owner: Owner(avatarUrl: ""),
-        hasIssues: true,
-        forks: 75,
-        watchers: 145,
-        openIssues: 5,
-        pushedAt: "2023-06-24T18:19:30Z"
-    )
+    // quitar en el paso 33
+//    static let placeHolder = Repository(
+//        name: "Mi repositorio",
+//        owner: Owner(avatarUrl: ""),
+//        hasIssues: true,
+//        forks: 75,
+//        watchers: 145,
+//        openIssues: 5,
+//        pushedAt: "2023-06-24T18:19:30Z",
+//        avatarData: Data()
+//    )
+}
+
+// 28
+extension Repository {
+    struct CodingData: Decodable {
+        let name: String
+        let owner: Owner
+        let hasIssues: Bool
+        let forks: Int
+        let watchers: Int
+        let openIssues: Int
+        let pushedAt: String
+        
+        var repo: Repository {
+            Repository(
+                name: name,
+                owner: owner,
+                hasIssues: hasIssues,
+                forks: forks,
+                watchers: watchers,
+                openIssues: openIssues,
+                pushedAt: pushedAt,
+                avatarData: Data()
+            )
+        }
+    }
 }
 
 struct Owner: Decodable {
